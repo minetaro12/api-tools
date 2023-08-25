@@ -10,13 +10,11 @@
 
   let headerKey: string, headerValue: string;
 
-  // Content-TypeがCustomの場合とメソッドがGETの場合はContent-Typeを削除
+  // Content-TypeがCustomの場合はContent-Typeを削除
   $: {
     if (headers["Content-Type"] === "" || method === "get") {
       delete headers["Content-Type"];
       headers = headers;
-    } else {
-      headers["Content-Type"] = "application/json";
     }
   }
 
