@@ -1,5 +1,6 @@
 <script lang="ts">
   import Select from "$lib/Select.svelte";
+  import ShowStatus from "$lib/ShowStatus.svelte";
   import CodeMirror from "svelte-codemirror-editor";
 
   let url: string;
@@ -142,7 +143,9 @@
       <p>Wait...</p>
     {:then result}
       {#if result != null}
-        <div class="mb-2">Status: {result.statusCode} {result.status}</div>
+        <div class="mb-2">
+          <ShowStatus statusCode={result.statusCode} status={result.status}/>
+        </div>
         {#each result.headers as header}
           <pre>{header}</pre>
         {/each}
