@@ -122,8 +122,8 @@
       <!-- リクエストヘッダの追加 -->
       <input
         type="button"
-        class="bg-blue-600 text-white rounded mt-2 ml-2 px-3 py-1 hover:bg-blue-500"
-        value="Add"
+        class="bg-blue-600 text-white rounded mt-2 ml-2 px-3 py-1 cursor-pointer hover:bg-blue-500"
+        value="＋"
         on:click={() => addHeader(headerKey, headerValue)}
       />
     </div>
@@ -132,7 +132,7 @@
       <div class="mt-2">
         <input
           type="button"
-          class="bg-red-600 text-white rounded px-1 hover:bg-red-500"
+          class="bg-red-600 text-white rounded px-1 cursor-pointer hover:bg-red-500"
           value="✕"
           on:click={() => deleteHeader(key)}
         />
@@ -140,9 +140,10 @@
       </div>
     {/each}
   </div>
+  <!-- 送信ボタン -->
   <input
     type="button"
-    class="bg-blue-600 text-white rounded mt-2 px-3 py-2 hover:bg-blue-500"
+    class="bg-blue-600 text-white rounded mt-2 px-3 py-2 cursor-pointer hover:bg-blue-500"
     value="Send"
     on:click={handle}
   />
