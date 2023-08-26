@@ -2,7 +2,7 @@
   import Result from "$lib/Result.svelte";
   import Select from "$lib/Select.svelte";
   import CodeMirror from "svelte-codemirror-editor";
-  
+
   import type { ResponseData } from "../types/ResponseData";
   import type { RequestData } from "../types/Request.Data";
 
@@ -80,6 +80,12 @@
       class="border-2 border-gray-300 rounded w-full mt-2 mr-1 p-1"
       placeholder="https://example.com"
       bind:value={url}
+      on:keydown={(e) => {
+        // Enterキーで送信
+        if (e.key === "Enter") {
+          handle();
+        }
+      }}
     />
     <Select bind:value={method}>
       <option value="get">GET</option>
@@ -118,6 +124,12 @@
         class="border-2 border-gray-300 w-full rounded mt-2 p-1"
         placeholder="value"
         bind:value={headerValue}
+        on:keydown={(e) => {
+          // Enterキーで追加
+          if (e.key === "Enter") {
+            addHeader(headerKey, headerValue);
+          }
+        }}
       />
       <!-- リクエストヘッダの追加 -->
       <input
