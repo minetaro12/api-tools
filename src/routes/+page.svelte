@@ -147,7 +147,7 @@
     on:click={handle}
   />
   <!-- 結果の表示 -->
-  <div class="border-2 border-gray-300 rounded mt-4 p-4 overflow-x-auto">
+  <div class="mt-4">
     {#await promise}
       <p>Wait...</p>
     {:then result}
