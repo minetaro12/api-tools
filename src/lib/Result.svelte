@@ -27,11 +27,11 @@
 />
 
 {#if selectedTab === 1}
-  <pre class="bg-gray-100 overflow-x-auto p-2">{result.body}</pre>
+  <pre class="text-sm bg-gray-100 overflow-x-auto p-2">{result.body}</pre>
 {/if}
 
 {#if selectedTab === 2}
-  <div class="bg-gray-100 overflow-x-auto p-2">
+  <div class="text-sm bg-gray-100 overflow-x-auto p-2">
     {#each result.headers as header}
       <pre>{header}</pre>
     {/each}

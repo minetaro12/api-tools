@@ -6,10 +6,11 @@
   import type { ResponseData } from "../types/ResponseData";
   import type { RequestData } from "../types/Request.Data";
 
-  let url: string;
-  let method: string;
-  let headers: Record<string, string> = {};
-  let body: string;
+  let scheme: string; // http:// or https://
+  let url: string; // example.com
+  let method: string; // GET, POST, PUT, DELETE
+  let headers: Record<string, string> = {}; // リクエストヘッダ
+  let body: string;  // リクエストボディ
 
   let headerKey: string, headerValue: string;
 
@@ -42,7 +43,7 @@
   async function submit() {
     // 送信するデータの格納
     let data: RequestData = {
-      url: url,
+      url: scheme + url,
       method: method,
       headers: headers,
       body: body,
@@ -79,10 +80,14 @@
 
 <div class="border-2 border-gray-300 rounded mt-4 mx-auto max-w-[800px] p-4">
   <div class="flex">
+    <Select bind:value={scheme}>
+      <option value="https://">https://</option>
+      <option value="http://">http://</option>
+    </Select>
     <input
       type="text"
       class="border-2 border-gray-300 rounded w-full mt-2 mr-1 p-1"
-      placeholder="https://example.com"
+      placeholder="example.com"
       bind:value={url}
       on:keydown={(e) => {
         // Enterキーで送信
