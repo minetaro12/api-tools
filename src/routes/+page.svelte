@@ -23,6 +23,10 @@
 
   // リクエストヘッダの追加
   function addHeader(key: string, value: string) {
+    // 空やundefinedの場合は追加しない
+    if (key === "" || value === "" || key === undefined || value === undefined)
+      return;
+
     headers[key] = value;
     headerKey = "";
     headerValue = "";
@@ -94,7 +98,8 @@
       <option value="delete">DELETE</option>
     </Select>
   </div>
-  <div class:hidden={method == "get"}>
+  <!-- GETメソッドのときはContent-Typeとbodyエディタを表示しない -->
+  {#if method != "get"}
     <Select bind:value={headers["Content-Type"]}>
       <option value="application/json">application/json</option>
       <option value="application/x-www-form-urlencoded">
@@ -108,7 +113,7 @@
     <div class="border-2 border-gray-300 rounded mt-2">
       <CodeMirror bind:value={body} placeholder={String('{ "foo": "bar" }')} />
     </div>
-  </div>
+  {/if}
 
   <div class="border-2 border-gray-300 rounded mt-2 p-4">
     <h2>Request Headers</h2>
