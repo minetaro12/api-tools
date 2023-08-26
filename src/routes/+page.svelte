@@ -1,7 +1,10 @@
 <script lang="ts">
+  import Result from "$lib/Result.svelte";
   import Select from "$lib/Select.svelte";
-  import ShowStatus from "$lib/ShowStatus.svelte";
   import CodeMirror from "svelte-codemirror-editor";
+  
+  import type { ResponseData } from "../types/ResponseData";
+  import type { RequestData } from "../types/Request.Data";
 
   let url: string;
   let method: string;
@@ -33,14 +36,15 @@
 
   // 送信処理
   async function submit() {
-    // 送信するデータ
-    let data = {
+    // 送信するデータの格納
+    let data: RequestData = {
       url: url,
       method: method,
       headers: headers,
       body: body,
     };
 
+    // リクエストの送信
     const res = await fetch("/api", {
       method: "POST",
       headers: {
@@ -49,7 +53,7 @@
       body: JSON.stringify(data),
     });
 
-    const result = await res.json();
+    const result: ResponseData = await res.json();
 
     if (res.ok) {
       return result;
@@ -58,7 +62,7 @@
     }
   }
 
-  let promise: Promise<any> | null = null;
+  let promise: Promise<ResponseData> | null = null;
 
   function handle() {
     promise = submit();
@@ -142,21 +146,13 @@
     value="Send"
     on:click={handle}
   />
+  <!-- 結果の表示 -->
   <div class="border-2 border-gray-300 rounded mt-4 p-4 overflow-x-auto">
     {#await promise}
       <p>Wait...</p>
     {:then result}
       {#if result != null}
-        <div class="mb-2">
-          <ShowStatus statusCode={result.statusCode} status={result.status} />
-        </div>
-        <details>
-          <summary>Response Headers</summary>
-          {#each result.headers as header}
-            <pre>{header}</pre>
-          {/each}
-        </details>
-        <pre class="mt-2">{result.body}</pre>
+        <Result {result} />
       {/if}
     {:catch error}
       <pre class="overflow-x-auto text-red-600">{error}</pre>

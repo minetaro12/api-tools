@@ -1,15 +1,10 @@
-import { error, json } from '@sveltejs/kit'
-
-type reqType = {
-  url: string,
-  method: string,
-  headers: HeadersInit
-  body: string
-}
+import { json } from '@sveltejs/kit'
+import type { RequestData } from '../../types/Request.Data.js'
+import type { ResponseData } from '../../types/ResponseData.js'
 
 export const POST = async ({ request }) => {
   // リクエストデータを格納
-  const req: reqType = await request.json()
+  const req: RequestData = await request.json()
 
   // fetchのオプションを格納
   const options: RequestInit = {
@@ -34,12 +29,17 @@ export const POST = async ({ request }) => {
       headers.push(`${k}: ${v}`)
     })
 
-    return json({
+    // レスポンスデータの格納
+    const data: ResponseData = {
       status: res.statusText,
       statusCode: res.status,
       headers: headers,
-      body: await res.text()
-    })
+      body: await res.text(),
+      message: "success"
+    }
+
+    return json(data)
+
   } catch (e: any) {
     console.log(e)
     return json({ message: e.message }, { status: 500 })
