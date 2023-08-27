@@ -3,6 +3,12 @@
   import type { ResponseData } from "../types/ResponseData";
 
   export let result: ResponseData;
+
+  // タブの切り替え
+  const items = [
+    { id: 1, label: "Body" },
+    { id: 2, label: "Headers" },
+  ];
   let selectedTab = 1;
 </script>
 
@@ -10,21 +16,17 @@
 <div class="mb-2 text-lg">
   <ShowStatus statusCode={result.statusCode} status={result.status} />
 </div>
+
 <!-- タブの切り替えボタン -->
-<input
-  type="button"
-  value="Body"
-  class="p-2 cursor-pointer rounded-t"
-  on:click={() => (selectedTab = 1)}
-  class:bg-gray-300={selectedTab === 1}
-/>
-<input
-  type="button"
-  value="Headers"
-  class="p-2 cursor-pointer rounded-t"
-  on:click={() => (selectedTab = 2)}
-  class:bg-gray-300={selectedTab === 2}
-/>
+{#each items as item}
+  <button
+    class="p-2 rounded-t hover:bg-gray-200"
+    on:click={() => (selectedTab = item.id)}
+    class:bg-gray-300={selectedTab === item.id}
+  >
+    {item.label}
+  </button>
+{/each}
 
 {#if selectedTab === 1}
   <pre class="text-sm bg-gray-100 overflow-x-auto p-2">{result.body}</pre>
