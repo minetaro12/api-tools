@@ -6,13 +6,13 @@
   import type { ResponseData } from "../types/ResponseData";
   import type { RequestData } from "../types/Request.Data";
 
-  let scheme: string; // http:// or https://
+  let scheme: "http://" | "https://"; // http:// or https://
   let url: string; // example.com
-  let method: string; // GET, POST, PUT, DELETE
+  let method: RequestData["method"]; // リクエストメソッド
   let headers: Record<string, string> = {}; // リクエストヘッダ
-  let body: string;  // リクエストボディ
+  let body: string; // リクエストボディ
 
-  let headerKey: string, headerValue: string;
+  let [headerKey, headerValue]: string = "";
 
   // Content-TypeがCustomの場合はContent-Typeを削除
   $: {
@@ -29,8 +29,7 @@
       return;
 
     headers[key] = value;
-    headerKey = "";
-    headerValue = "";
+    [headerKey, headerValue] = "";
   }
 
   // リクエストヘッダの削除
@@ -43,7 +42,7 @@
   async function submit() {
     // 送信するデータの格納
     let data: RequestData = {
-      url: scheme + url,
+      url: `${scheme}${url}`,
       method: method,
       headers: headers,
       body: body,
@@ -145,7 +144,7 @@
       <input
         type="button"
         class="bg-blue-600 text-white rounded mt-2 ml-2 px-3 py-1 cursor-pointer hover:bg-blue-500"
-        value="＋"
+        value="Add"
         on:click={() => addHeader(headerKey, headerValue)}
       />
     </div>
@@ -155,7 +154,7 @@
         <input
           type="button"
           class="bg-red-600 text-white rounded px-1 cursor-pointer hover:bg-red-500"
-          value="✕"
+          value="Del"
           on:click={() => deleteHeader(key)}
         />
         <span>{key}: {value}</span>
