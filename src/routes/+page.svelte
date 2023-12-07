@@ -4,7 +4,7 @@
   import CodeMirror from "svelte-codemirror-editor";
 
   import type { ResponseData } from "../types/ResponseData";
-  import type { RequestData } from "../types/Request.Data";
+  import type { RequestData } from "../types/RequestData";
 
   let scheme: "http://" | "https://"; // http:// or https://
   let url: string; // example.com
