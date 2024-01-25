@@ -1,5 +1,5 @@
 import { json } from '@sveltejs/kit'
-import type { RequestData } from '../../types/Request.Data.js'
+import type { RequestData } from '../../types/RequestData.js'
 import type { ResponseData } from '../../types/ResponseData.js'
 
 export const POST = async ({ request }) => {
