@@ -1,6 +1,7 @@
 import { json, RequestHandler } from '@sveltejs/kit'
 import type { RequestData } from '../../types/RequestData.ts'
 import type { ResponseData } from '../../types/ResponseData.ts'
+import { Buffer } from 'buffer'
 
 export const POST: RequestHandler = async ({ request }) => {
   // リクエストデータを格納
@@ -29,12 +30,28 @@ export const POST: RequestHandler = async ({ request }) => {
       headers.push(`${k}: ${v}`)
     })
 
+    let isBase64: boolean = false
+    let body: string = ""
+
+    if (res.headers.get("Content-Type")?.startsWith("image/")) {
+      // 画像の場合はbase64エンコードする
+      isBase64 = true
+      const blob = await res.blob()
+      const arrayBuffer = await blob.arrayBuffer()
+      const buffer = Buffer.from(arrayBuffer)
+      body = buffer.toString("base64")
+    } else {
+      body = await res.text()
+    }
+
     // レスポンスデータの格納
     const data: ResponseData = {
       status: res.statusText,
       statusCode: res.status,
       headers: headers,
-      body: await res.text(),
+      contentType: res.headers.get("Content-Type") || "",
+      body: body,
+      isBase64: isBase64,
       message: "success"
     }
 

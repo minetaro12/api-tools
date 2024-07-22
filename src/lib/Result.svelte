@@ -29,7 +29,11 @@
 {/each}
 
 {#if selectedTab === 1}
-  <pre class="text-sm bg-gray-100 overflow-x-auto p-2">{result.body}</pre>
+  {#if result.isBase64 === true}
+    <img src="data:{result.contentType};base64,{result.body}" alt="result"/>
+  {:else}
+    <pre class="text-sm bg-gray-100 overflow-x-auto p-2">{result.body}</pre>
+  {/if}
 {/if}
 
 {#if selectedTab === 2}
