@@ -1,8 +1,8 @@
-import { json } from '@sveltejs/kit'
-import type { RequestData } from '../../types/RequestData.js'
-import type { ResponseData } from '../../types/ResponseData.js'
+import { json, RequestHandler } from '@sveltejs/kit'
+import type { RequestData } from '../../types/RequestData.ts'
+import type { ResponseData } from '../../types/ResponseData.ts'
 
-export const POST = async ({ request }) => {
+export const POST: RequestHandler = async ({ request }) => {
   // リクエストデータを格納
   const req: RequestData = await request.json()
 
